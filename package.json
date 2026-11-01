@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "node scripts/build.mjs",
-    "check": "node --check dist/app.js && node --check dist/auth.js && node --check src/cloud-adapter.js && node --check src/workbook-engine.js"
+    "check": "node --check dist/app.js && node --check dist/auth.js && node --check dist/dashboard-data.js && node --check dist/dashboard.js && node --check src/cloud-adapter.js && node --check src/workbook-engine.js"
   },
   "dependencies": {
     "@xmldom/xmldom": "^0.8.11",

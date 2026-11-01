@@ -6,7 +6,7 @@ const nf = new Intl.NumberFormat('en-US', {numberingSystem:'latn', maximumFracti
 const pf = new Intl.NumberFormat('en-US', {numberingSystem:'latn', maximumFractionDigits: 2, style:'percent'});
 const df = new Intl.DateTimeFormat('ar-SA-u-ca-gregory', {numberingSystem:'latn', dateStyle:'medium', timeStyle:'short', timeZone:'Asia/Riyadh'});
 let state = null;
-let activeView = 'Sheet2';
+let activeView = 'dashboard';
 let activeGroups = {};
 let filters = {search:'', sort:'source', missing:false};
 let sourceSheet = 'Sheet2';
@@ -64,7 +64,8 @@ function render() {
     b.classList.toggle('active', selected);
     b.setAttribute('aria-current', selected ? 'page' : 'false');
   });
-  if (activeView === 'source') renderSource();
+  if (activeView === 'dashboard') window.MaestroDashboard.render($('#main'),state,{onEdit:location=>openRecord('edit',location.recordId,location)});
+  else if (activeView === 'source') renderSource();
   else if (activeView === 'history') renderHistory();
   else if (activeView === 'help') renderHelp();
   else renderRecords();
@@ -157,12 +158,13 @@ function openDialog(title, body, footer = '', wide = false) {
 }
 function closeDialog() { $('#modal').close(); dirty = false; formContext = null; clearTimeout(previewTimer); previewSequence++; showSaved(); }
 
-function openRecord(action, recordId = null) {
-  const group = currentGroup(); if (!group) return;
+function openRecord(action, recordId = null, location = null) {
+  const sheetName = location?.sheet || activeView;
+  const group = location ? state.sheets.find(sheet=>sheet.name===sheetName)?.groups.find(group=>group.id===location.groupId) : currentGroup(); if (!group) return;
   const record = recordId ? getRecord(group.id, recordId) : null;
-  const isCalc = activeView === 'Sheet2';
+  const isCalc = sheetName === 'Sheet2';
   const days = record ? record.days : group.records.find(r => r.days != null)?.days ?? null;
-  formContext = {action, groupId:group.id, recordId, isCalc, initialIds:new Set(group.records.map(r => r.id))};
+  formContext = {action, sheet:sheetName, groupId:group.id, recordId, isCalc, initialIds:new Set(group.records.map(r => r.id))};
   dirty = false;
   const blank = value => value == null ? '' : escapeHTML(value);
   openDialog(action === 'add' ? 'إضافة محتوى' : 'تعديل المحتوى',
@@ -244,7 +246,7 @@ async function importFile(file) {
 }
 async function confirmImport() {
   $('#confirmImport').disabled = true;
-  try { const data = await post('/api/import-confirm',{token:formContext.token,revision:revision()}); closeDialog(); activeGroups = {}; filters = {search:'',sort:'source',missing:false}; updateState(data); toast('حُفظ الملف المستورد بعد التأكيد.'); }
+  try { const data = await post('/api/import-confirm',{token:formContext.token,revision:revision()}); closeDialog(); activeGroups = {}; filters = {search:'',sort:'source',missing:false}; window.MaestroDashboard?.clear(); updateState(data); toast('حُفظ الملف المستورد بعد التأكيد.'); }
   catch (error) { $('#importError').textContent = error.message; $('#importError').classList.remove('hidden'); $('#confirmImport').disabled = false; }
 }
 
@@ -303,13 +305,13 @@ async function openWorkspace() {
 }
 window.MaestroCloud.subscribe((next,error)=>{
   if (error) {
-    if ([401,403].includes(error.status)) { state=null;window.MaestroCloud.clear();$('#modal').close();$('#modal').innerHTML='';$('#main').textContent=error.message; }
+    if ([401,403].includes(error.status)) { state=null;window.MaestroCloud.clear();window.MaestroDashboard?.clear();$('#modal').close();$('#modal').innerHTML='';$('#main').textContent=error.message; }
     setStatus('error','تعذرت المزامنة — تحقق من الاتصال والصلاحيات'); return;
   }
   if (!dirty && !$('#modal').open) { updateState(next); toast('وصل تحديث من مساحة العمل.'); }
 });
 window.MaestroAuth.subscribe((event)=>{
   if (event==='SIGNED_IN' || event==='INITIAL_SESSION' && window.MaestroAuth.getSession()) openWorkspace();
-  if (event==='SIGNED_OUT') { state=null;window.MaestroCloud.clear();dirty=false;formContext=null;$('#modal').close();$('#modal').innerHTML='';$('#main').replaceChildren();$('#sourceInfo').textContent='';clearTimeout(previewTimer);previewSequence++; }
+  if (event==='SIGNED_OUT') { state=null;window.MaestroCloud.clear();window.MaestroDashboard?.clear();dirty=false;formContext=null;$('#modal').close();$('#modal').innerHTML='';$('#main').replaceChildren();$('#sourceInfo').textContent='';clearTimeout(previewTimer);previewSequence++; }
 });
 window.MaestroAuth.start({appSelector:'#app',beforeSignOut:()=> !dirty || window.confirm('توجد تغييرات لم تُحفظ. هل تريد تسجيل الخروج وإلغاء التغييرات؟')});
