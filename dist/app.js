@@ -2,9 +2,9 @@
 
 const $ = (selector, root = document) => root.querySelector(selector);
 const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const nf = new Intl.NumberFormat('en-US', {maximumFractionDigits: 2});
-const pf = new Intl.NumberFormat('en-US', {maximumFractionDigits: 2, style:'percent'});
-const df = new Intl.DateTimeFormat('ar-SA-u-ca-gregory', {dateStyle:'medium', timeStyle:'short', timeZone:'Asia/Riyadh'});
+const nf = new Intl.NumberFormat('en-US', {numberingSystem:'latn', maximumFractionDigits: 2});
+const pf = new Intl.NumberFormat('en-US', {numberingSystem:'latn', maximumFractionDigits: 2, style:'percent'});
+const df = new Intl.DateTimeFormat('ar-SA-u-ca-gregory', {numberingSystem:'latn', dateStyle:'medium', timeStyle:'short', timeZone:'Asia/Riyadh'});
 let state = null;
 let activeView = 'Sheet2';
 let activeGroups = {};
