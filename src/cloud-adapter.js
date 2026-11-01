@@ -140,7 +140,16 @@ async function request(path,options={}) {
 async function download(kind) {
   const generation=authGeneration;
   // Read the current shared revision so exports include the latest saved data.
-  await load();
+  const previous=current?.revision;
+  const next=await load();
+  requireGeneration(generation);
+  // A download can discover a remote save before polling does. Notify the UI
+  // now, because subsequent polls will already see this revision in the cache.
+  if (previous!==next.document.revision) for (const callback of subscribers) {
+    requireGeneration(generation);
+    callback(next);
+  }
+  requireGeneration(generation);
   if (!current.payload) throw fail('استورد ملف المرجع أولًا.');
   const p=current.payload;
   let bytes,type,name;

@@ -4,6 +4,8 @@
   font-weight: 400 500;
   font-style: normal;
   font-display: swap;
+  /* ASCII digits use the Latin fallback, even within Arabic text. */
+  unicode-range: U+0000-002F, U+003A-10FFFF;
 }
 
 @font-face {
@@ -12,6 +14,7 @@
   font-weight: 600 900;
   font-style: normal;
   font-display: swap;
+  unicode-range: U+0000-002F, U+003A-10FFFF;
 }
 
 :root {
