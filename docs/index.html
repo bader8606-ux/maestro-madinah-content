@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="أداة مايسترو لإدارة محتوى شاشات المدينة وحسابات العرض، بمساحة عمل خاصة وحفظ مشترك.">
+  <meta name="referrer" content="no-referrer">
+  <meta name="color-scheme" content="light">
+  <title>مايسترو | إدارة محتوى شاشات المدينة</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./auth.css">
+  <script src="./config.js" defer></script>
+  <script src="./auth.js" defer></script>
+  <script src="./cloud.js" defer></script>
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link sr-only" href="#main">انتقل إلى المحتوى</a>
+  <div class="app-shell" id="app" hidden>
+    <aside class="sidebar" aria-label="التنقل الرئيسي">
+      <img class="brand-logo" src="./assets/logo.png" alt="MAESTRO مايسترو">
+      <p class="brand-subtitle">إدارة محتوى شاشات المدينة</p>
+      <nav class="nav-list" id="navigation">
+        <button class="nav-item active" data-view="Sheet2"><span class="nav-icon" aria-hidden="true">▦</span>حسابات العرض<span class="badge neutral">Sheet2</span></button>
+        <button class="nav-item" data-view="Sheet1"><span class="nav-icon" aria-hidden="true">▤</span>مدد المحتوى<span class="badge neutral">Sheet1</span></button>
+        <button class="nav-item" data-view="source"><span class="nav-icon" aria-hidden="true">ƒ</span>المصدر والمعادلات</button>
+        <button class="nav-item" data-view="history"><span class="nav-icon" aria-hidden="true">↶</span>سجل التعديلات</button>
+        <button class="nav-item" data-view="help"><span class="nav-icon" aria-hidden="true">؟</span>الحفظ وطريقة الاستخدام</button>
+      </nav>
+      <div class="sidebar-bottom"><strong>مساحة عمل خاصة</strong><p>دخول للمصرح لهم وحفظ مشترك.<br>المعادلات الأصلية محمية من التحرير.</p></div>
+    </aside>
+    <div class="workspace">
+      <header class="topbar">
+        <div class="status-pill" id="saveStatus" role="status" aria-live="polite"><span class="status-dot"></span><span>جارٍ تحميل الملف…</span></div>
+        <div class="topbar-actions">
+          <button class="btn secondary" id="saveBtn">حفظ</button>
+          <button class="btn secondary" id="refreshBtn">تحديث البيانات</button>
+          <button class="btn secondary" id="undoBtn" disabled>تراجع</button>
+          <button class="btn secondary" id="importBtn">استيراد Excel</button>
+          <a class="btn secondary" href="#" data-download="backup" id="backupBtn">نسخة احتياطية</a>
+          <a class="btn primary" href="#" data-download="export" id="exportBtn">تصدير Excel</a>
+        </div>
+      </header>
+      <main id="main" tabindex="-1"><div class="empty-state">جارٍ فتح بيانات المرجع…</div></main>
+      <footer class="app-footer"><span>MAESTRO · إدارة المحتوى</span><span id="sourceInfo"></span></footer>
+    </div>
+  </div>
+  <input id="importFile" class="hidden" type="file" accept=".xlsx,.json" aria-label="اختر ملف Excel محدثًا أو نسخة احتياطية">
+  <dialog id="modal" class="dialog" aria-labelledby="dialogTitle"></dialog>
+  <div class="toast hidden" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

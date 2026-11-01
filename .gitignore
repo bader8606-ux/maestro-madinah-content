@@ -1,0 +1,14 @@
+node_modules/
+.env
+.env.*
+!.env.example
+*.xlsx
+*.xlsm
+*.sqlite*
+*.db
+source/
+data/
+private/
+test-results/
+*.backup.json
+.DS_Store

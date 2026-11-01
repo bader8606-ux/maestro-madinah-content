@@ -1,0 +1,61 @@
+/* Authentication shell shares Maestro's locally supplied typography and palette. */
+.auth-gate {
+  display: grid;
+  min-height: 100dvh;
+  place-items: center;
+  padding: 42px 22px;
+  direction: rtl;
+  background: var(--canvas, #f5f7fb);
+  color: var(--ink, #202438);
+  font-family: var(--font, "GE Dinar One", Arial, sans-serif);
+}
+.auth-gate[hidden], .auth-gate [hidden], .auth-account[hidden] { display: none !important; }
+.auth-frame { width: 100%; max-width: 470px; }
+.auth-brand { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-bottom: 28px; }
+.auth-brand img { display: block; width: 170px; height: 57px; object-fit: contain; }
+.auth-brand span { color: var(--muted, #697386); font-size: 14px; }
+.auth-card { position: relative; padding: 31px 34px 27px; border: 1px solid var(--line, #e2e6ef); border-radius: 13px; background: white; box-shadow: 0 8px 42px rgba(35, 51, 137, 0.035); }
+.auth-card::before { position: absolute; top: 26px; right: -1px; width: 3px; height: 44px; border-radius: 2px; background: var(--purple, #93268e); content: ""; }
+.auth-eyebrow { display: block; margin-bottom: 5px; color: var(--purple, #93268e); font-size: 12px; font-weight: 700; }
+.auth-heading h1 { margin: 0; color: var(--navy, #233389); font-size: 30px; font-weight: 700; line-height: 1.4; }
+.auth-heading p { margin: 10px 0 24px; color: var(--muted, #697386); font-size: 14px; line-height: 1.9; }
+.auth-field { display: block; margin-bottom: 18px; }
+.auth-field > span:first-child { display: block; margin-bottom: 6px; color: #46516b; font-size: 14px; }
+.auth-field input { display: block; width: 100%; min-height: 46px; padding: 10px 12px; border: 1px solid #d8dfed; border-radius: 6px; outline-offset: 3px; background: white; color: var(--ink, #202438); font-family: Arial, sans-serif; font-size: 15px; line-height: 1.5; text-align: left; }
+.auth-field input:hover { border-color: #aebdd8; }
+.auth-field input:focus { border-color: var(--blue, #4499d3); outline: 3px solid rgba(68, 153, 211, 0.2); }
+.auth-field input:disabled { background: #f7f8fc; cursor: wait; opacity: 0.7; }
+.auth-password-wrap { position: relative; display: block; }
+.auth-password-wrap input { padding-right: 65px; }
+.auth-password-wrap button { position: absolute; top: 7px; right: 6px; bottom: 7px; min-width: 48px; padding: 4px 7px; border: 0; border-radius: 4px; background: #f1f3fa; color: var(--navy, #233389); font-family: inherit; font-size: 12px; }
+.auth-password-wrap button:hover { background: #e7ebf6; }
+.auth-submit { display: flex; width: 100%; min-height: 46px; margin-top: 24px; justify-content: center; font-size: 15px; }
+.auth-submit:disabled { cursor: not-allowed; opacity: 0.5; }
+.auth-message { margin: 0 0 20px; padding: 12px 13px; border: 1px solid #d4e3f3; border-radius: 6px; background: #f2f7fc; color: #396180; font-size: 13px; line-height: 1.9; overflow-wrap: anywhere; }
+.auth-message.error { border-color: #edcbd3; background: #fff5f7; color: #a52e48; }
+.auth-retry { display: flex; width: 100%; margin-top: 12px; justify-content: center; font-size: 13px; }
+.auth-support { margin: 23px 0 0; padding-top: 19px; border-top: 1px solid #e8ecf4; color: var(--muted, #697386); font-size: 12px; line-height: 1.9; }
+.auth-footnote { margin: 19px 15px 0; color: #7b859b; font-size: 11px; line-height: 1.9; text-align: center; }
+.auth-account { display: flex; align-items: center; gap: 8px; margin-right: 4px; padding-right: 10px; border-right: 1px solid var(--line, #e2e6ef); }
+.auth-account-email { display: inline-block; max-width: 170px; overflow: hidden; color: var(--muted, #697386); font-family: Arial, sans-serif; font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+.auth-logout { font-size: 12px; }
+@media (max-width: 1120px) {
+  .auth-account-email { display: none; }
+  .auth-account { padding-right: 7px; margin-right: 0; }
+}
+@media (max-width: 600px) {
+  .auth-gate { padding: 27px 16px; }
+  .auth-frame { max-width: 430px; }
+  .auth-brand { margin-bottom: 22px; gap: 8px; }
+  .auth-brand img { width: 151px; height: 49px; }
+  .auth-brand span { font-size: 13px; }
+  .auth-card { padding: 25px 23px 22px; border-radius: 10px; }
+  .auth-heading h1 { font-size: 27px; }
+  .auth-heading p { font-size: 13px; }
+  .auth-support { margin-top: 20px; font-size: 11px; }
+  .auth-footnote { margin-right: 8px; margin-left: 8px; font-size: 10px; }
+  .auth-account { padding-right: 0; border-right: 0; }
+}
+@media print {
+  .auth-gate, .auth-account { display: none !important; }
+}
